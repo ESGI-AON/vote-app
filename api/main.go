@@ -2,11 +2,12 @@ package main
 
 import (
 	"log"
-
+	"time"
 	"github.com/gin-gonic/gin"
 	"github.com/kconde2/vote-app/api/controllers"
 	"github.com/kconde2/vote-app/api/db"
 	"github.com/kconde2/vote-app/api/middleware"
+	"github.com/itsjamie/gin-cors"
 )
 
 func main() {
@@ -19,10 +20,21 @@ func main() {
 	r := setupRouter()
 	r.Run(":8080")
 }
-
+	
 func setupRouter() *gin.Engine {
 	r := gin.Default()
 	
+	r.Use(cors.Middleware(cors.Config{
+		Origins:        "*",
+		Methods:        "GET, PUT, POST, DELETE",
+		RequestHeaders: "Origin, Authorization, Content-Type",
+		ExposedHeaders: "",
+		MaxAge: 50 * time.Second,
+		Credentials: true,
+		ValidateHeaders: false,
+	}))
+
+
 	route := r.Group("/")
 
 	// Manage login (auth + generate JWT)

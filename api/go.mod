@@ -16,6 +16,7 @@ require (
 	github.com/go-playground/locales v0.12.1 // indirect
 	github.com/go-playground/universal-translator v0.16.0 // indirect
 	github.com/golang/protobuf v1.3.2 // indirect
+	github.com/itsjamie/gin-cors v0.0.0-20160420130702-97b4a9da7933
 	github.com/jinzhu/gorm v1.9.10
 	github.com/json-iterator/go v1.1.7 // indirect
 	github.com/leodido/go-urn v1.1.0 // indirect
