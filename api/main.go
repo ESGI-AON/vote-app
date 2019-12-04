@@ -16,14 +16,14 @@ func main() {
 	db.Initialize()
 	db.CreateSystemAdmin()
 
-	
+
 	r := setupRouter()
 	r.Run(":8080")
 }
-	
+
 func setupRouter() *gin.Engine {
 	r := gin.Default()
-	
+
 	r.Use(cors.Middleware(cors.Config{
 		Origins:        "*",
 		Methods:        "GET, PUT, POST, DELETE",
@@ -50,18 +50,18 @@ func setupRouter() *gin.Engine {
 	{
 		users := route.Group("/users")
 		{
-			users.GET("/", controllers.GetUsers)
-			users.POST("/", controllers.CreateUser)
-			users.PUT("/:uuid", controllers.UpdateUser)
-			users.DELETE("/:uuid", controllers.DeleteUser)
+			users.GET("", controllers.GetUsers)
+			users.POST("", controllers.CreateUser)
+			users.PUT(":uuid", controllers.UpdateUser)
+			users.DELETE(":uuid", controllers.DeleteUser)
 		}
 
 		votes := route.Group("/votes")
 		{
-			votes.GET("/", controllers.GetVotes)
-			votes.POST("/", controllers.CreateVote)
-			votes.GET("/:uuid", controllers.RetrieveVote)
-			votes.PUT("/:uuid", controllers.UpdateVote)
+			votes.GET("", controllers.GetVotes)
+			votes.POST("", controllers.CreateVote)
+			votes.GET(":uuid", controllers.RetrieveVote)
+			votes.PUT(":uuid", controllers.UpdateVote)
 		}
 	}
 	return r
