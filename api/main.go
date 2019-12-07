@@ -48,8 +48,10 @@ func setupRouter() *gin.Engine {
 	// Manage protected routes
 	route.Use(authMiddleware.MiddlewareFunc())
 	{
+		route.GET("/user/:email", controllers.RetrieveUserByEmail)
 		users := route.Group("/users")
 		{
+			users.GET(":uuid", controllers.RetrieveUser)
 			users.GET("", controllers.GetUsers)
 			users.POST("", controllers.CreateUser)
 			users.PUT(":uuid", controllers.UpdateUser)

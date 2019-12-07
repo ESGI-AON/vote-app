@@ -43,7 +43,7 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	// Create user if no errors throws by Validate method in user model
+	//Create user if no errors throws by Validate method in user model
 	if err := db.Create(&user); err.Error != nil {
 
 		// convert array of errors to JSON
@@ -62,6 +62,44 @@ func CreateUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, &user)
+}
+
+func RetrieveUser(c *gin.Context) {
+	uuid := c.Param("uuid")
+	var user models.User
+
+	db := db.GetDB()
+	if err := db.Where("uuid = ?", uuid).First(&user).Error; err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		return
+	}
+	// return json data
+	c.JSON(http.StatusOK, gin.H{
+		"uuid":       user.UUID,
+		"email":      user.Email,
+		"first_name": user.FirstName,
+		"last_name": user.LastName,
+		"access_level": user.AccessLevel,
+	})
+}
+
+func RetrieveUserByEmail(c *gin.Context) {
+	uuid := c.Param("email")
+	var user models.User
+
+	db := db.GetDB()
+	if err := db.Where("email = ?", uuid).First(&user).Error; err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		return
+	}
+	// return json data
+	c.JSON(http.StatusOK, gin.H{
+		"uuid":       user.UUID,
+		"email":      user.Email,
+		"first_name": user.FirstName,
+		"last_name": user.LastName,
+		"access_level": user.AccessLevel,
+	})
 }
 
 // UpdateUser update user information according to business logic
